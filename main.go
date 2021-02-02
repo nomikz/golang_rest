@@ -1,15 +1,27 @@
 package main
 
 import (
-	"fmt"
+	"./controllers"
+	"github.com/gorilla/mux"
 	"net/http"
 )
 
 func main() {
-	http.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/plain")
-		fmt.Println("someone came in again")
-		_, _ = fmt.Fprintf(w, "<h1>Hello kitty</h1>")
-	})
-	_ = http.ListenAndServe(":3000", nil)
+	router := mux.NewRouter()
+
+	staticC := controllers.NewStatic()
+	usersC := controllers.NewUsers()
+
+	router.Handle("/", staticC.HomeView).Methods("GET")
+	router.Handle("/contacts", staticC.ContactsView).Methods("GET")
+	router.HandleFunc("/sign-up", usersC.New).Methods("GET")
+	router.HandleFunc("/sign-up", usersC.Create).Methods("POST")
+
+	_ = http.ListenAndServe(":3000", router)
+}
+
+func must(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
