@@ -5,13 +5,13 @@ import (
 )
 
 type Static struct {
-	HomeView     *views.View
-	ContactsView *views.View
+	Home     *views.View
+	Contacts *views.View
 }
 
 func NewStatic() *Static {
 	return &Static{
-		HomeView:     views.NewView("bootstrap", "./views/static/index.gohtml"),
-		ContactsView: views.NewView("bootstrap", "./views/static/contacts.gohtml"),
+		Home:     views.NewView("bootstrap", "static/index"),
+		Contacts: views.NewView("bootstrap", "static/contacts"),
 	}
 }

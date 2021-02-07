@@ -8,10 +8,13 @@ import (
 
 var (
 	LayoutsDir  = "views/layouts/"
+	TemplateDir = "views/"
 	TemplateExt = ".gohtml"
 )
 
 func NewView(layout string, files ...string) *View {
+	formatDirPath(files)
+
 	files = append(
 		files,
 		layoutFiles()...,
@@ -51,4 +54,10 @@ func layoutFiles() []string {
 		panic(err)
 	}
 	return files
+}
+
+func formatDirPath(files []string) {
+	for i, dir := range files {
+		files[i] = TemplateDir + dir + TemplateExt
+	}
 }
